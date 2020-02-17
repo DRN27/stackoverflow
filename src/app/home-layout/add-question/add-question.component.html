@@ -1,0 +1,56 @@
+<div class="wrapper">
+  <h2>New question</h2>
+  <form [formGroup]="form" (ngSubmit)="addQuestion()">
+
+    <div class="control">
+      <div class="control-wrapper">
+        <span>Title</span>
+        <input type="text" formControlName="title">
+      </div>
+      <div
+        *ngIf="form.get('title').invalid && form.get('title').touched"
+        class="validation">
+        <p *ngIf="form.get('title').errors.required">Enter title</p>
+      </div>
+    </div>
+
+    <div class="control" >
+      <div class="control-wrapper">
+        <span>Text</span>
+        <quill-editor formControlName="text"></quill-editor>
+      </div>
+      <div
+        class="validation"
+        *ngIf="form.get('text').invalid && form.get('text').touched">
+        <p *ngIf="form.get('text').errors.required">Enter text</p>
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-wrapper">
+        <span>Tags</span>
+      </div>
+      <div class="checkbox-wrapper">
+        <div *ngFor="let data of tagsData">
+          <label>
+            <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)"/>
+            {{data.value}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button type="submit" class="btn btn-outline-success" [disabled]="form.invalid">Ok</button>
+      <button
+        type="button"
+        class="btn btn-outline-danger"
+        [routerLink]="['/home/allQuestions']"
+      >Cancel</button>
+    </div>
+
+  </form>
+</div>
+
+
+

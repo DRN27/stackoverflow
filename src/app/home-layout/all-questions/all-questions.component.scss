@@ -1,0 +1,121 @@
+.wrapper {
+  max-width: 95%;
+  margin: 50px auto;
+}
+
+.question-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.question{
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: calc(33.33% - 30px);
+  min-width: 345px;
+  padding: 10px 0;
+  margin: 15px;
+  p {
+    margin: 0;
+  }
+  &-title-box {
+    font-size: 26px;
+    text-align: center;
+    line-height: 1.2;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 20px 15px;
+    p {
+      transition: all .7s cubic-bezier(.21, 1.23, 1, 1.54);
+    }
+    p:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+  &-date {
+    font-size: 12px;
+    padding: 0 10px;
+    min-width: 108px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  &-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    padding-right: 10px;
+    span {
+      font-size: 14px;
+      color: #039be5;
+      text-decoration: underline;
+      margin-right: 5px;
+    }
+  }
+  .wrapper-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 45px;
+    border-bottom: 1px solid #ccc;
+  }
+  .button-wrapper{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button:first-child{
+      margin-right: 20px;
+    }
+  }
+  .on-moderation {
+    p {
+      text-align: center;
+    }
+  }
+}
+
+.listView {
+  width: 100%;
+}
+.greenBorder {
+  border: 3px solid green;
+}
+.yellowBorder {
+  border: 3px solid orange;
+  .on-moderation {
+    color: orange;
+  }
+}
+
+
+@media  screen and (max-width: 1155px) {
+  .question{
+    width: calc(50% - 30px);
+  }
+  .listView {
+    width: 100%;
+  }
+}
+
+@media  screen and (max-width: 760px) {
+  .question{
+    width: calc(100% - 30px);
+  }
+  .listView {
+    width: 100%;
+  }
+}
+
+@media  screen and (max-width: 400px) {
+  .question{
+    width: calc(100% - 30px);
+    min-width: 290px;
+  }
+  .listView {
+    width: 100%;
+  }
+}

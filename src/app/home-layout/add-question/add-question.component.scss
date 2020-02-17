@@ -1,0 +1,94 @@
+.wrapper {
+  text-align: center;
+  max-width: 700px;
+  margin: 70px auto 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 30px 4%;
+
+  h2 {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+  }
+  .control {
+    margin-bottom: 15px;
+      .control-wrapper {
+        display: flex;
+        align-items: flex-start;
+        span {
+          margin-right: 20px;
+        }
+      }
+      input[type='text'] {
+        width: 620px;
+        outline: none;
+        padding: 0 7px;
+      }
+      .checkbox-wrapper {
+        text-align: left;
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        input {
+          margin-right: 5px;
+        }
+        label {
+          margin: 0;
+        }
+      }
+  }
+
+  .btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+    button {
+      width: 83px;
+      &:first-child {
+        margin-right: 30px;
+      }
+    }
+  }
+
+  .validation {
+    p {
+      color: red;
+      margin: 0;
+    }
+  }
+
+}
+
+
+
+@media  screen and (max-width: 720px) {
+  .wrapper {
+    margin: 70px 10px 0;
+    .control {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto 15px;
+      span {
+        text-align: left;
+      }
+      input[type='text'] {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@media  screen and (max-width: 500px) {
+  .wrapper {
+    .control {
+      .control-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      span {
+        text-align: center;
+      }
+    }
+  }
+}

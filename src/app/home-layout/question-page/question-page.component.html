@@ -1,0 +1,89 @@
+<div class="wrapper" *ngIf="question; else spinner">
+  <div class="question" id="{{question.id}}">
+    <nav>
+      <span class="author">{{question.author}}</span>
+      <span class="date">{{question.date | date: 'HH:mm dd.MM.yyyy'}}</span>
+    </nav>
+    <h2>{{question.title}}</h2>
+    <quill-view-html [content]="question.text"></quill-view-html>
+
+    <footer>
+      <div class="tags">
+      <span *ngFor="let item of question.tags">
+        {{item}}
+      </span>
+      </div>
+
+      <div class="buttons">
+        <button
+          type="button" class="btn btn-outline-primary"
+          (click)="editQuestion()"
+          *ngIf="isAuthor"
+        >Edit</button>
+        <div class="button-wrapper" *ngIf="isAdmin">
+          <button
+            class="btn btn-outline-success"
+            *ngIf="!question.isApproved"
+            (click)="approve(this)"
+          >Approve</button>
+          <button
+            class="btn btn-outline-danger"
+            (click)="delete(this)"
+          >Delete</button>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="comments-wrapper">
+    <h2>Comments/Answers:</h2>
+
+    <div
+      class="comment"
+      *ngFor="let item of question.comments; let idx = index"
+      [ngClass]="{
+        greenBorder: item.isChecked,
+        grayBorder: !item.isChecked
+      }">
+      <div class="comment_author">answered:
+        <p>{{item.date | date: 'HH:mm dd.MM.yyyy'}}</p>
+        <p>by: {{item.author}}</p>
+      </div>
+      <div class="comment_content">
+        <div
+          class="resolve"
+          [ngClass]="{greenFont: item.isChecked}">
+          <input
+            type="checkbox"
+            id="comment{{idx}}"
+            (change)="onCheckboxChange($event)"
+            [disabled]="!isAuthor"
+            [checked]="item.isChecked === true"/>
+          <label for="comment{{idx}}">resolve</label>
+        </div>
+        <quill-view-html [content]="item.text"></quill-view-html>
+      </div>
+    </div>
+
+    <div class="addAnswer-wrapper">
+      <quill-editor [(ngModel)]="commentText"></quill-editor>
+      <button
+        class="btn btn-outline-primary btn-block"
+        (click)="addAnswer()"
+        [disabled]="!commentText">
+        add comment / answer
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+
+<ng-template #spinner>
+  <div class="spinner-wrapper">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+</ng-template>
+

@@ -1,0 +1,45 @@
+<form class="loginForm" [formGroup]="form" (ngSubmit)="SignIn()">
+
+  <h2>log in</h2>
+
+  <div class="control">
+    <span>Email</span>
+    <input type="email" formControlName="email">
+  </div>
+  <div
+    *ngIf="form.get('email').invalid && form.get('email').touched"
+    class="validation">
+    <p *ngIf="form.get('email').errors.required">Enter your email</p>
+    <p *ngIf="form.get('email').errors.email">Enter correct email</p>
+  </div>
+
+  <div class="control">
+    <span>Password</span>
+    <input type="password" formControlName="password">
+  </div>
+  <div
+    *ngIf="form.get('password').invalid && form.get('password').touched"
+    class="validation">
+    <p *ngIf="form.get('password').errors.required">Enter your password</p>
+    <p *ngIf="form.get('password').errors.minlength">Passwords must be at least 6 characters</p>
+  </div>
+
+  <div class="social">
+    <button type="button" class="btn btn-outline-primary" (click)="authenticationService.googleAuth()">
+      <fa name="google"></fa>google
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="authenticationService.githubAuth()">
+      <fa name="github"></fa>github
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="authenticationService.twitterAuth()">
+      <fa name="twitter"></fa>twitter
+    </button>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" [disabled]="form.invalid" class="btn btn-outline-success" >log in</button>
+  </div>
+
+</form>
+
+

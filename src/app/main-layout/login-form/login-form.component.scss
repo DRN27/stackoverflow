@@ -1,0 +1,96 @@
+.loginForm {
+  max-width: 400px;
+  height: 400px;
+  border: 2px solid black;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 50px auto;
+  padding: 0 10px;
+}
+
+.control {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  span {
+    width: 100px;
+  }
+  input {
+    font-size: 18px;
+    max-width: 250px;
+    height: 30px;
+    padding: 3px 7px;
+    outline: none;
+    &.ng-invalid.ng-touched {
+      border: 2px solid red;
+    }
+    &.ng-valid.ng-touched {
+      border: 2px solid green;
+    }
+  }
+}
+
+p {
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.validation {
+  color: red;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin: -10px 0 0 270px;
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
+}
+
+.social {
+  margin: 15px 0;
+  button {
+    width: 105px;
+    line-height: 31px;
+    margin: 0 10px;
+  }
+}
+
+fa {
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+
+//    MEDIA
+@media  screen and (max-width: 450px) {
+  .loginForm {
+    height: 450px;
+  }
+
+  .validation {
+    margin: -10px 0 0 0;
+  }
+
+  .social {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    button {
+      width: 100%;
+      margin: 2px 0;
+    }
+  }
+
+  .control {
+    width: 100%;
+    flex-direction: column;
+    input {
+      max-width: 400px;
+    }
+  }
+}

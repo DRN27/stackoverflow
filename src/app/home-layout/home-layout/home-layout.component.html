@@ -1,0 +1,80 @@
+<div class="wrapper">
+  <nav>
+    <div class="logo"><fa name="stack-overflow"></fa></div>
+
+    <div class="btn-container">
+      <div
+        class="btn btn-outline-info"
+        [routerLink]="['/home/allQuestions']"
+      >on main</div>
+      <div
+        class="btn btn-outline-primary btn-add-question"
+        [routerLink]="['/home/addQuestion']"
+      >add question</div>
+      <div class="btn btn-outline-secondary" (click)="logout($event)">logout</div>
+    </div>
+
+  </nav>
+
+  <div class="sort-bar" *ngIf="router.url === '/home/allQuestions'">
+
+    <div class="sort-bar_filters" (click)="showFilters()">
+      <span>
+        <fa name="tasks"></fa>
+        filters
+      </span>
+    </div>
+    <div class="sort-bar_sort" (click)="showSorts()">
+      <span>
+        <fa name="sort"></fa>
+        sort
+      </span>
+    </div>
+    <div class="sort-bar_settings" (click)="showSettings()">
+      <span>
+        <fa name="cog"></fa>
+        settings
+      </span>
+    </div>
+
+  </div>
+
+  <div class="filters" *ngIf="filters && router.url === '/home/allQuestions'">
+    <h4>Filter by:</h4>
+    <div *ngFor="let item of filtersData; let idx = index" class="filter-{{idx}}" >
+      <label>
+        <input type="checkbox" [value]="item.value" (change)="onCheckboxChange($event)">
+        {{item.value}}
+      </label>
+    </div>
+  </div>
+
+  <div class="sorts" *ngIf="sorts && router.url === '/home/allQuestions'">
+    <h4>Sort by:</h4>
+    <div class="sort-group">
+      <div *ngFor="let item of sortData; let idx = index" class="sort-{{idx}}">
+        <label>
+          <input type="radio" name="sort" [value]="item.value" (change)="onRadioChange($event)">
+          {{item.value}}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings" *ngIf="settings && router.url === '/home/allQuestions'">
+    <p>
+      Change view on:
+      <button class="btn btn-outline-info" (click)="changeView()"> {{viewValue}}</button>
+    </p>
+  </div>
+
+  <div
+    class="btn-add-question-icon"
+    [routerLink]="['/home/addQuestion']">
+    <fa name="plus"></fa>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>
+

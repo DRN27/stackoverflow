@@ -1,0 +1,49 @@
+<div class="wrapper" *ngIf="questionService.questionsArray; else spinner" >
+
+  <div class="question-wrapper">
+
+    <div
+      class="question"
+      id="{{item.id}}"
+      [ngClass]="{
+        listView: !isGridView,
+        greenBorder: item.isResolved,
+        yellowBorder: !item.isApproved && !isAdmin
+      }"
+      *ngFor="let item of questionService.questionsArray | moderation | filter: arrayOfTags | sort: sort;"
+      (click)="questionService.showQuestion($event)">
+      <div class="question-title-box">
+        <p class="question_title">{{item.title}}</p>
+      </div>
+      <div class="wrapper-box">
+        <p class="question-date">{{item.date | date: 'HH:mm dd.MM.yyyy'}}</p>
+        <p class="question-tags">
+          <span *ngFor="let ite of item['tags']">{{ite}}</span>
+        </p>
+      </div>
+      <div class="button-wrapper" *ngIf="isAdmin">
+        <button
+          class="btn btn-outline-success"
+          (click)="approve($event)"
+          *ngIf="!item.isApproved"
+        >Approve</button>
+        <button class="btn btn-outline-danger" (click)="delete($event)">Delete</button>
+      </div>
+
+      <div class="on-moderation" *ngIf="!item.isApproved && !isAdmin">
+        <p>The question on moderation</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<ng-template #spinner>
+  <div class="spinner-wrapper">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+</ng-template>
+
+
