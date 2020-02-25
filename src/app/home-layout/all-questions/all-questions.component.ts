@@ -20,7 +20,6 @@ export class AllQuestionsComponent {
     public homeLayout: HomeLayoutComponent,
     public questionService: QuestionsService
   ) {
-
     this.homeLayout.getFilters$.subscribe( value => {
       this.arrayOfTags = value;
     });

@@ -25,7 +25,7 @@ export class AuthenticationGuard implements CanActivate{
       map(user => {
         if (user) {
           currentUser.isAdmin = false;
-          currentUser.currentUserName = user['email'];
+          currentUser.currentUserName = (user['email'] == null) ? 'noname' : user['email'];
           console.log(currentUser.currentUserName);
           adminsList.admins.forEach(admin => {
             if (user['email'] == admin) {

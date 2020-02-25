@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Observable} from 'rxjs';
@@ -16,6 +16,7 @@ export class QuestionsService {
   constructor(
     private  database: AngularFireDatabase,
     private  router: Router,
+    public ngZone: NgZone,
   ) {
     this.questionObs = this.database.list('questions').valueChanges();
     this.questionObs.subscribe(value => {
@@ -40,14 +41,20 @@ export class QuestionsService {
         let key = data.key;
         this.database.database.ref(`questions/${key}`)
           .update({'id': key});
-        this.router.navigate([`home/question/${key}`]);
+        // this.router.navigate([`home/question/${key}`]);
+        this.ngZone.run(() => {
+          this.router.navigate([`home/question/${key}`]);
+        });
       });
   }
 
   showQuestion(event) {
     if (event.target.className == 'question_title' ) {
       this.id = event.currentTarget.id;
-      this.router.navigate([`home/question/${this.id}`]);
+      this.ngZone.run(() => {
+        this.router.navigate([`home/question/${this.id}`]);
+      });
+
     }
   }
 

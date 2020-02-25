@@ -85,38 +85,40 @@
         align-items: center;
         justify-content: center;
 
-        input[type=checkbox] {
-          display: none;
-        }
 
-        input[type=checkbox] + label:before {
-          content: "\2714";
-          color: transparent;
-          display: block;
-          border: 1px solid #ccc;
-          font-size: 30px;
-          font-weight: 900;
-          line-height: 32px;
-          margin: 0 auto;
-          height: 30px;
-          width: 30px;
-          text-align: center;
-          vertical-align: middle;
-          transition: color ease .3s;
-          &:hover {
-            cursor: pointer;
-          }
-        }
-
-        input[type=checkbox]:checked + label:before {
-          color: green;
-        }
       }
     }
   }
   button {
     margin-top: 15px;
   }
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+label:before {
+  content: "\2714";
+  color: transparent;
+  display: block;
+  border: 1px solid #ccc;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 32px;
+  margin: 0 auto;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle;
+  transition: color ease .3s;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+input[type=checkbox]:checked + label:before {
+  color: green;
 }
 
 .greenFont {
@@ -128,6 +130,10 @@
 }
 .grayBorder {
   border: 2px solid #ccc;
+}
+
+.noBorder:before {
+  border: none;
 }
 
 

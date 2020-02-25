@@ -32,7 +32,7 @@ export const sortBar: SortBar = {
 };
 
 export const tagsData: Tags = {
-  tagsData: [
+  tags: [
     {value: '.net', checked: false},
     {value: 'java', checked: false},
     {value: 'frontend', checked: false},

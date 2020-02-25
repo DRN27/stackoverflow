@@ -23,20 +23,18 @@ export class QuestionPageComponent {
     this.questionsService.allQuestions.subscribe(value => {
       const url = window.location.href.split('/');
       const id  = url[url.length - 1];
-      let counter = 0;
 
       for (let key in value) {
         if (key === id) {
           this.question = value[id];
           this.isAuthor = (this.question.author == currentUser.currentUserName);
-          counter = 1;
           break;
         }
       }
-      if (counter == 0 && !this.question) {
+
+      if (!this.question) {
         this.router.navigate(['home/allQuestions']);
       }
-
     });
   }
 

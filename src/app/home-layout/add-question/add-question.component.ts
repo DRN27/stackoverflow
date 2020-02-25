@@ -14,7 +14,7 @@ import {tagsData, currentUser} from '../../environment';
 export class AddQuestionComponent {
 
   form: FormGroup;
-  tagsData = tagsData.tagsData;
+  tagsData = tagsData.tags;
 
   constructor(
     private formBuilder: FormBuilder,

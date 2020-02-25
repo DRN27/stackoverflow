@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -9,16 +9,14 @@ import {AuthenticationService} from '../../services/authentication.service';
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss']
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegistrationFormComponent {
 
   form: FormGroup;
 
   constructor(
     public router: Router,
     public authenticationService: AuthenticationService,
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.form = new FormGroup({
       email: new FormControl(null, [
         Validators.email,
@@ -28,7 +26,7 @@ export class RegistrationFormComponent implements OnInit {
         Validators.minLength(6),
         Validators.required
       ])
-    })
+    });
   }
 
   signUp() {

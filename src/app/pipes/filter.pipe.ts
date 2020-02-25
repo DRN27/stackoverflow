@@ -7,124 +7,107 @@ import { currentUser } from '../environment';
 export class FilterPipe implements PipeTransform {
 
   transform(questionArray, filterArray): any {
-    const setOfQuestions = new Set();
 
-    if (filterArray === undefined || filterArray === []) {
+    const setOfQuestions = new Set();
+    let myQuestions = [];
+
+    if (filterArray === undefined || filterArray.length == 0) {
       return questionArray;
     }
 
     if (filterArray.includes('answered') || filterArray.includes('no answered')
       || filterArray.includes('on moderation') || filterArray.includes('my questions')) {
 
-      if (filterArray.includes('answered') && filterArray.includes('no answered')
-        || filterArray.includes('answered') && filterArray.includes('on moderation')) {
-        return  [];
-      } else {
-        setOfQuestions.clear();
+        if ( filterArray.includes('my questions') ) {
+          myQuestions = questionArray.filter(question => question.author == currentUser.currentUserName);
 
-        if (filterArray.includes('on moderation')) {
-          questionArray.forEach(question => {
-            if (!question.isApproved) {
-              setOfQuestions.add(question);
+          if ( filterArray.includes('answered') && filterArray.includes('no answered') ) {
+            myQuestions = questionArray.filter(question => question.author == currentUser.currentUserName);
+          } else {
+
+            if ( filterArray.includes('answered') ) {
+              myQuestions = myQuestions.filter(question => question.isResolved);
             }
-          });
-          questionArray = Array.from(setOfQuestions);
-        }
 
-        if (filterArray.includes('my questions')) {
-          questionArray.forEach(question => {
-            if (question.author == currentUser.currentUserName) {
-              setOfQuestions.add(question);
+            if ( filterArray.includes('no answered') ) {
+              myQuestions = myQuestions.filter(question => !question.isResolved);
             }
-          });
-          questionArray = Array.from(setOfQuestions);
-        }
+          }
+        } else if ( filterArray.includes('on moderation') ) {
+          myQuestions = questionArray.filter(question => !question.isApproved);
 
-        if (filterArray.includes('answered')) {
-          setOfQuestions.clear();
-          questionArray.forEach(question => {
-            if (question.isResolved) {
-              setOfQuestions.add(question);
+          if ( filterArray.includes('answered') && filterArray.includes('no answered') ) {
+            myQuestions = questionArray;
+          } else {
+
+            if ( filterArray.includes('answered') ) {
+              myQuestions = myQuestions.filter(question => question.isResolved);
             }
-          });
-          questionArray = Array.from(setOfQuestions);
-        }
 
-        if (filterArray.includes('no answered')) {
-          setOfQuestions.clear();
-          questionArray.forEach(question => {
-            if (!question.isResolved) {
-              setOfQuestions.add(question);
+            if ( filterArray.includes('no answered') ) {
+              myQuestions = myQuestions.filter(question => !question.isResolved);
             }
-          });
-          questionArray = Array.from(setOfQuestions);
+          }
+        } else {
+
+          if ( filterArray.includes('answered') && filterArray.includes('no answered') ) {
+            myQuestions =  questionArray;
+          } else {
+
+            if ( filterArray.includes('answered') ) {
+              myQuestions =  questionArray.filter(question => question.isResolved);
+            }
+
+            if ( filterArray.includes('no answered') ) {
+              myQuestions = questionArray.filter(question => !question.isResolved);
+            }
+          }
         }
-      }
-
-      setOfQuestions.clear();
-
+        myQuestions.forEach(question => {
+          setOfQuestions.add(question);
+        });
     }
 
     if (filterArray.includes('per day') || filterArray.includes('per week')
       || filterArray.includes('per month')) {
 
-      if ((filterArray.includes('per day') && filterArray.includes('per week')) ||
-         (filterArray.includes('per day') && filterArray.includes('per month')) ||
-         (filterArray.includes('per month') && filterArray.includes('per week'))) {
-           return [];
-      } else {
         const today = new Date();
-        let array = [];
 
-        if (filterArray.includes('per month')) {
-          const  month = new Date(today.valueOf() - 2592000000);
-          questionArray.forEach(question => {
-            if (question.date <= today && question.date >= month) {
-              array.push(question);
-            }
-          });
-          questionArray = array.slice();
-        }
+      if (filterArray.includes('per day')) {
+        const  yesterday = new Date(today.valueOf() - 86400000);
 
-        if (filterArray.includes('per week')) {
-          array = [];
-          const  week = new Date(today.valueOf() - 604800000);
-          questionArray.forEach(question => {
-            if (question.date <= today && question.date >= week) {
-              array.push(question);
-            }
-          });
-          questionArray = array.slice();
-        }
-
-        if (filterArray.includes('per day')) {
-          array = [];
-          const  yesterday = new Date(today.valueOf() - 86400000);
-          questionArray.forEach(question => {
-            if (question.date <= today && question.date >= yesterday) {
-              array.push(question);
-            }
-          });
-          questionArray = array.slice();
-        }
+        myQuestions = questionArray.filter(question => question.date >= yesterday);
       }
 
+      if (filterArray.includes('per week')) {
+        const  week = new Date(today.valueOf() - 604800000);
+
+        myQuestions = questionArray.filter(question => question.date >= week);
+      }
+
+      if (filterArray.includes('per month')) {
+        const  month = new Date(today.valueOf() - 2592000000);
+
+        myQuestions = questionArray.filter(question => question.date >= month);
+      }
+
+      myQuestions.forEach(question => {
+        setOfQuestions.add(question);
+      });
     }
 
     if (filterArray.includes('.net') || filterArray.includes('java')
       || filterArray.includes('frontend') || filterArray.includes('salesforce')) {
+
       questionArray.forEach(question => {
         filterArray.forEach( filter => {
           if ( question.tags.includes(filter) ) {
             setOfQuestions.add(question);
           }
-        })
+        });
       });
-
-      questionArray = setOfQuestions;
     }
 
-    return questionArray;
+    return  Array.from(setOfQuestions);
   }
-
 }

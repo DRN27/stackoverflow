@@ -93,10 +93,6 @@ export class HomeLayoutComponent {
   }
 
   changeViewValue() {
-    if (this.isGridView) {
-      this.viewValue = 'list';
-    } else {
-      this.viewValue = 'grid';
-    }
+    this.viewValue = (this.isGridView) ? 'list' : 'grid';
   }
 }

@@ -22,7 +22,7 @@ export class ModerationPipe implements PipeTransform {
         }
       });
 
-      return questionsArray = array.slice();
+      return array;
     }
 
   }

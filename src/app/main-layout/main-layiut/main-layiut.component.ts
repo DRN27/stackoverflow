@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
   templateUrl: './main-layiut.component.html',
   styleUrls: ['./main-layiut.component.scss']
 })
-export class MainLayiutComponent implements OnInit {
+export class MainLayiutComponent {
 
   buttonValue = 'registration';
 
@@ -15,9 +15,6 @@ export class MainLayiutComponent implements OnInit {
   ) {
     this.buttonValue = (this.router.url).slice(1);
     this.changeButtonName()
-  }
-
-  ngOnInit() {
   }
 
   redirect() {

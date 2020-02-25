@@ -14,29 +14,27 @@ import {tagsData} from '../../environment';
 export class EditQuestionPageComponent {
 
   form: FormGroup;
-  tagsData = tagsData.tagsData;
+  tagsData = tagsData.tags;
   question: Question;
   arrayOfTags: FormArray;
 
   constructor(
     public formBuilder: FormBuilder,
-    private database: AngularFireDatabase,
-    private router: Router,
-    private questionsService: QuestionsService,
+    public database: AngularFireDatabase,
+    public router: Router,
+    public questionsService: QuestionsService,
   ) {
     this.questionsService.allQuestions.subscribe(value => {
       const url = window.location.href.split('/');
       const id  = url[url.length - 1];
-      let counter = 0;
 
       for (let key in value) {
         if (key === id) {
           this.question = value[id];
-          counter = 1;
           break;
         }
       }
-      if (counter == 0) {
+      if (!this.question) {
         this.router.navigate(['home/allQuestions']);
       }
 
@@ -88,7 +86,6 @@ export class EditQuestionPageComponent {
     this.questionsService.editQuestion(editQuestion);
   }
 
-
   onCheckboxChange(e) {
     if (e.target.checked) {
       this.arrayOfTags.push(new FormControl(e.target.value));
@@ -107,6 +104,4 @@ export class EditQuestionPageComponent {
   navigate() {
     this.router.navigate([`home/question/${this.question.id}`]);
   }
-
-
 }

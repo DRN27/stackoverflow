@@ -47,7 +47,7 @@ export interface SortBar {
 }
 
 export interface Tags {
-  tagsData: [
+  tags: [
     {value: string, checked: boolean},
     {value: string, checked: boolean},
     {value: string, checked: boolean},
