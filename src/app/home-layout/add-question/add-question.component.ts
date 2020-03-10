@@ -68,4 +68,8 @@ export class AddQuestionComponent {
     }
   }
 
+  navigate() {
+    this.router.navigate(['/home/allQuestions']);
+  }
+
 }

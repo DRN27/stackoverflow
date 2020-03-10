@@ -33,7 +33,7 @@
       <div class="checkbox-wrapper">
         <div *ngFor="let data of tagsData">
           <label>
-            <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)"/>
+            <input type="checkbox" [value]="data.value" [class]="data.value" (change)="onCheckboxChange($event)"/>
             {{data.value}}
           </label>
         </div>
@@ -45,7 +45,7 @@
       <button
         type="button"
         class="btn btn-outline-danger"
-        [routerLink]="['/home/allQuestions']"
+        (click)="navigate()"
       >Cancel</button>
     </div>
 

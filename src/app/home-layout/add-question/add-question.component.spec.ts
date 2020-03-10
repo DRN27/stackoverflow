@@ -1,48 +1,101 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {AddQuestionComponent} from './add-question.component';
-import {FormBuilder} from '@angular/forms';
+import {FormArray, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {QuillModule} from 'ngx-quill';
+import {Router} from '@angular/router';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../../environments/environment';
 import {QuestionsService} from '../../services/questions.service';
-import {TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+
+class RouterStub {
+  navigate(path: any[]) {}
+}
 
 describe('AddQuestionComponent', () => {
   let component: AddQuestionComponent;
-  let questionsService: QuestionsService;
+  let fixture: ComponentFixture<AddQuestionComponent>;
+  let service: QuestionsService;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        AddQuestionComponent
+      ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        QuillModule.forRoot(),
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+      ],
+      providers: [
+        {provide: Router, useClass: RouterStub},
+        QuestionsService
+      ]
+    })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
-    component = new AddQuestionComponent(new FormBuilder(), null, null, questionsService);
-    questionsService = new QuestionsService(null, null, null);
-    // questionsService = TestBed.get(QuestionsService);
+    fixture = TestBed.createComponent(AddQuestionComponent);
+    component = fixture.debugElement.componentInstance;
+    service = TestBed.get(QuestionsService);
+
+    fixture.detectChanges();
   });
 
-  it ('should create form with 3 controls', () => {
-    expect( component.form.contains('title') ).toBeTruthy();
-    expect( component.form.contains('text') ).toBeTruthy();
-    expect( component.form.contains('arrayOfTags') ).toBeTruthy();
+  it('should call function from service', () => {
+    const spy = spyOn(service, 'addQuestion');
+
+    component.form.get('title').setValue('testTitle');
+    component.form.get('text').setValue('testText');
+    fixture.detectChanges();
+    component.addQuestion();
+
+    expect(spy).toHaveBeenCalledWith({
+      id: '',
+      author: '',
+      title: 'testTitle',
+      text: 'testText',
+      tags: [],
+      date: new Date().toString(),
+      isResolved: false,
+      isApproved: false
+    });
+  }) ;
+
+  it('should navigate to allQuestions page', () => {
+    const router = TestBed.get(Router);
+    const spy = spyOn(router, 'navigate');
+
+    component.navigate();
+
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should mark controls as invalid if value is empty', () => {
-    const title = component.form.get('title');
-    const text = component.form.get('text');
+  it ('should if checkbox is checked push it value on array', () => {
+    const arrayOfTags: FormArray = component.form.get('arrayOfTags') as FormArray;
+    const input1 = fixture.debugElement.query(By.css('.frontend') ).nativeElement;
+    const input2 = fixture.debugElement.query(By.css('.java') ).nativeElement;
 
-    title.setValue('');
-    text.setValue('');
+    input1.click();
+    input2.click();
 
-    expect(title.valid).toBeFalsy();
-    expect(text.valid).toBeFalsy();
+    expect(arrayOfTags.value).toEqual(['frontend', 'java']);
   });
 
-  // it('should mark arrayOfTags as invalid if value is empty', () => {
-  //   const control = component.form.get('arrayOfTags');
-  //
-  //   control.setValue('');
-  //
-  //   expect(control.valid).toBeFalsy();
-  // });
+  it ('should return empty array if double click on element', () => {
+    const arrayOfTags: FormArray = component.form.get('arrayOfTags') as FormArray;
+    const input1 = fixture.debugElement.query(By.css('.frontend') ).nativeElement;
+    const input2 = fixture.debugElement.query(By.css('.salesforce') ).nativeElement;
 
-  it('should call function in service', () => {
-   component.addQuestion = jasmine.createSpy('addQuestion');
-   component.addQuestion();
+    input1.click();
+    input1.click();
+    input2.click();
 
-    expect(questionsService.addQuestion).toHaveBeenCalled();
+    expect(arrayOfTags.value).toEqual(['salesforce']);
   });
 
 });
