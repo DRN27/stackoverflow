@@ -149,11 +149,12 @@ nav {
     cursor: pointer;
     background: #007bff;
   }
-  &:hover fa{
+  &:hover span{
     color: #fff;
   }
-  fa {
+  span {
     color: #007bff;
+    font-size: 26px;
   }
 }
 

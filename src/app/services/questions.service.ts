@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from '@angular/core';
+import {ChangeDetectorRef, Injectable, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Observable} from 'rxjs';
@@ -15,13 +15,12 @@ export class QuestionsService {
 
   constructor(
     private  database: AngularFireDatabase,
-    private  router: Router,
+    private router: Router,
     public ngZone: NgZone,
   ) {
     this.questionObs = this.database.list('questions').valueChanges();
     this.questionObs.subscribe(value => {
       this.questionsArray = value;
-
       for (let item of value) {
         item['date'] = new Date(item['date']);
       }
@@ -32,7 +31,7 @@ export class QuestionsService {
       this.database.database.ref('questions').on('value', value => {
         sub.next(value.val());
       });
-    })
+    });
   }
 
   addQuestion(question) {
@@ -41,7 +40,6 @@ export class QuestionsService {
         let key = data.key;
         this.database.database.ref(`questions/${key}`)
           .update({'id': key});
-        // this.router.navigate([`home/question/${key}`]);
         this.ngZone.run(() => {
           this.router.navigate([`home/question/${key}`]);
         });

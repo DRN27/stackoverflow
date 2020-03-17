@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {QuestionsService} from '../../services/questions.service';
 import {HomeLayoutComponent} from '../home-layout/home-layout.component';
 import {currentUser} from '../../environment';
@@ -18,7 +18,7 @@ export class AllQuestionsComponent {
 
   constructor(
     public homeLayout: HomeLayoutComponent,
-    public questionService: QuestionsService
+    public questionService: QuestionsService,
   ) {
     this.homeLayout.getFilters$.subscribe( value => {
       this.arrayOfTags = value;
@@ -30,7 +30,6 @@ export class AllQuestionsComponent {
       this.isGridView = value;
     });
   }
-
 
   approve(event) {
     const id = this.getId(event);

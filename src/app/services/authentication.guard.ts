@@ -5,6 +5,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AuthenticationService} from './authentication.service';
 import {map, take, tap} from 'rxjs/operators';
 import {currentUser, adminsList} from '../environment';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Injectable ({providedIn: 'root'})
 
@@ -14,6 +15,7 @@ export class AuthenticationGuard implements CanActivate{
     private dbAuth: AngularFireAuth,
     private router: Router,
     private auth: AuthenticationService,
+    private database: AngularFireDatabase
   ) {}
 
   canActivate(
@@ -24,9 +26,9 @@ export class AuthenticationGuard implements CanActivate{
       take(1),
       map(user => {
         if (user) {
+          this.database.database.goOnline();
           currentUser.isAdmin = false;
           currentUser.currentUserName = (user['email'] == null) ? 'noname' : user['email'];
-          console.log(currentUser.currentUserName);
           adminsList.admins.forEach(admin => {
             if (user['email'] == admin) {
               currentUser.isAdmin = true;

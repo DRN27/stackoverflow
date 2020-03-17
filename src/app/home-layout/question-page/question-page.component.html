@@ -60,12 +60,7 @@
             (change)="onCheckboxChange($event)"
             [disabled]="!isAuthor"
             [checked]="item.isChecked === true"/>
-          <label
-            for="comment{{idx}}"
-            [ngClass]="{
-              noBorder: !isAuthor
-            }"
-          >resolve</label>
+          <label for="comment{{idx}}">resolve</label>
         </div>
         <quill-view-html [content]="item.text"></quill-view-html>
       </div>

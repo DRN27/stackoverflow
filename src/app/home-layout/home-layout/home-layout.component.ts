@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import {sortBar, currentUser} from '../../environment';
@@ -10,7 +10,7 @@ import {Subject} from 'rxjs';
   templateUrl: './home-layout.component.html',
   styleUrls: ['./home-layout.component.scss']
 })
-export class HomeLayoutComponent {
+export class HomeLayoutComponent implements OnInit {
 
   form: FormGroup;
   filters = false;
@@ -18,6 +18,7 @@ export class HomeLayoutComponent {
   settings = false;
   isGridView = true;
   viewValue = 'list';
+  url;
 
   filtersData = (currentUser.isAdmin) ? sortBar.filtersForAdmin : sortBar.filtersForUser;
   sortData = sortBar.sorts;
@@ -39,6 +40,11 @@ export class HomeLayoutComponent {
 
     this.isGridView = JSON.parse(sessionStorage.getItem('isGridView'));
     this.changeViewValue();
+  }
+
+  ngOnInit(): void {
+    // this.url = (this.router.url === '/home/allQuestions');
+    // console.log(window.location.href);
   }
 
   logout(event) {

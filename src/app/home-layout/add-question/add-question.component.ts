@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Router} from '@angular/router';
 import {Question} from '../../interface';
 import {QuestionsService} from '../../services/questions.service';
 import {tagsData, currentUser} from '../../environment';
+
 
 @Component({
   selector: 'app-add-question',
@@ -20,7 +21,7 @@ export class AddQuestionComponent {
     private formBuilder: FormBuilder,
     private database: AngularFireDatabase,
     private router: Router,
-    private questionsService: QuestionsService
+    private questionsService: QuestionsService,
   ) {
     this.form = this.formBuilder.group({
       title: new FormControl(null, [
@@ -32,7 +33,7 @@ export class AddQuestionComponent {
       arrayOfTags: this.formBuilder.array([], [
         Validators.required
       ])
-    })
+    });
   }
 
   addQuestion() {
@@ -48,7 +49,6 @@ export class AddQuestionComponent {
     };
 
     this.questionsService.addQuestion(newQuestion);
-
   }
 
   onCheckboxChange(e) {

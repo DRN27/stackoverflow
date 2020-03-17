@@ -2,6 +2,7 @@ import {Injectable, NgZone} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
 import {auth} from 'firebase';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Injectable({ providedIn: 'root' })
 
@@ -11,6 +12,7 @@ export class AuthenticationService {
     public router: Router,
     public dbAuth: AngularFireAuth,
     public ngZone: NgZone,
+    private  database: AngularFireDatabase,
   ) {}
 
   get currentUser(): any {
@@ -28,7 +30,7 @@ export class AuthenticationService {
   }
 
   signIn(email, password){
-    const message = this.dbAuth.auth.signInWithEmailAndPassword(email, password)
+    this.dbAuth.auth.signInWithEmailAndPassword(email, password)
       .then(res => {
         this.router.navigate(['/home']);
       })
@@ -39,8 +41,10 @@ export class AuthenticationService {
   }
 
   signOut() {
-    this.dbAuth.auth.signOut();
-    this.router.navigate(['/login']);
+    this.dbAuth.auth.signOut().then(() => {
+      this.database.database.goOffline();
+      this.router.navigate(['/login']);
+    });
   }
 
   googleAuth() {

@@ -18,7 +18,7 @@ export class QuestionPageComponent {
 
   constructor(
     public questionsService: QuestionsService,
-    public router: Router
+    public router: Router,
   ) {
     this.questionsService.allQuestions.subscribe(value => {
       const url = window.location.href.split('/');

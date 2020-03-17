@@ -16,7 +16,7 @@
 
   </nav>
 
-  <div class="sort-bar" *ngIf="router.url === '/home/allQuestions'">
+  <div class="sort-bar" *ngIf="url">
 
     <div class="sort-bar_filters" (click)="showFilters()">
       <span>
@@ -39,7 +39,7 @@
 
   </div>
 
-  <div class="filters" *ngIf="filters && router.url === '/home/allQuestions'">
+  <div class="filters" *ngIf="filters && url">
     <h4>Filter by:</h4>
     <div *ngFor="let item of filtersData; let idx = index" class="filter-{{idx}}" >
       <label>
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="sorts" *ngIf="sorts && router.url === '/home/allQuestions'">
+  <div class="sorts" *ngIf="sorts && url">
     <h4>Sort by:</h4>
     <div class="sort-group">
       <div *ngFor="let item of sortData; let idx = index" class="sort-{{idx}}">
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div class="settings" *ngIf="settings && router.url === '/home/allQuestions'">
+  <div class="settings" *ngIf="settings && url">
     <p>
       Change view on:
       <button class="btn btn-outline-info" (click)="changeView()"> {{viewValue}}</button>
@@ -71,7 +71,7 @@
   <div
     class="btn-add-question-icon"
     [routerLink]="['/home/addQuestion']">
-    <i fa name="plus"></i>
+    <span >+</span>
   </div>
 
   <router-outlet></router-outlet>
